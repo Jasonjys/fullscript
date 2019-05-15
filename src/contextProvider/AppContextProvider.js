@@ -7,7 +7,7 @@ import { AppContext } from './AppContext'
 class AppContextProvider extends Component {
   state = {
     currentPage: 1,
-    pageSize: 20,
+    pageSize: 10,
     orderedBy: orderedByOptions[0],
     photos: [],
     loading: true,
