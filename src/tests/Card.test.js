@@ -1,7 +1,7 @@
 import React from 'react'
 import { expect } from 'chai'
 import { shallow } from 'enzyme'
-import { Card } from '../components/Card'
+import Card, {Img} from '../components/Card'
 
 describe('Card component', () => {
   let wrapper, photo;
@@ -21,7 +21,6 @@ describe('Card component', () => {
   })
 
   it('renders 1 image', () => {
-    expect(wrapper.find('img')).to.have.lengthOf(1)
+    expect(wrapper.find(Img)).to.have.lengthOf(1)
   })
-
 })

@@ -12,7 +12,7 @@ const CardContainer = styled.div`
   }
 `
 
-const Img = styled.img`
+export const Img = styled.img`
   max-width: 100%;
   height: auto;
   display: block
