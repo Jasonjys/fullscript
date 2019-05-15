@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import styled from 'styled-components'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import AppContextProvider from './contextProvider/AppContextProvider'
+import PhotoGallery from './components/PhotoGallery'
+import FilterDropdown from './components/FilterDropdown'
+import './App.css'
+
+const Container = styled.div`
+  padding: 15px;
+`
+
+class App extends Component {
+  render() {
+    return (
+      <AppContextProvider>
+        <Container>
+          <FilterDropdown />
+          <PhotoGallery />
+        </Container>
+      </AppContextProvider>
+    );
+  }
 }
 
 export default App;
