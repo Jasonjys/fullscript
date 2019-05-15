@@ -8,7 +8,11 @@ const FilterDropdown = () => {
   const { changeOrderedBy, orderedByOptions } = useContext(AppContext)
 
   return (
-    <Select defaultValue={orderedByOptions[0]} placeholder="Ordered By" style={{ width: 150 }}>
+    <Select
+      defaultValue={orderedByOptions[0]}
+      placeholder="Ordered By"
+      style={{marginLeft: "10px", width: 150 }}
+    >
       {orderedByOptions.map(option => (
         <Option
           key={option}

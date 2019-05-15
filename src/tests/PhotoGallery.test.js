@@ -57,6 +57,25 @@ describe('Gallery component', () => {
     expect(div.textContent).to.equal('No result')
   })
 
+  it("shows 'Something went wrong' when error", () => {
+    const mockContext = {
+      state: {
+        error: true
+      }
+    }
+
+    act(() => {
+      ReactDOM.render((
+        <AppContext.Provider value={mockContext}>
+          <PhotoGallery />
+        </AppContext.Provider>
+      ), container);
+    })
+
+    const div = container.querySelector('div')
+    expect(div.textContent).to.equal('Something went wrong')
+  })
+
   it("shows imgages when photos exists", () => {
     const mockContext = {
       state: {

@@ -11,7 +11,7 @@ class AppContextProvider extends Component {
     orderedBy: orderedByOptions[0],
     photos: [],
     loading: true,
-    error: false,
+    error: true,
     queryTerm: "",
     userInput: "",
     total: 0
@@ -27,7 +27,7 @@ class AppContextProvider extends Component {
     try {
       const res = await unsplash.photos.listPhotos(currentPage, pageSize, orderedBy)
       const photos = await res.json()
-      console.log(photos)
+
       this.setState({
         photos,
         loading: false,

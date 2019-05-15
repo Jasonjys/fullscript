@@ -6,7 +6,7 @@ import { AppContext } from '../contextProvider/AppContext'
 import Card from './Card'
 
 const Gallery = styled.div`
-  column-count: 4;
+  column-count: 3;
 `
 const IndicatorContainer = styled.div`
   display: flex;
@@ -25,13 +25,14 @@ const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 const PhotoGallery = () => {
   const { state, changePageSize, changePage } = useContext(AppContext)
-  if (!state.loading && !state.photos.length) {
+  if (state.error) {
     return (
       <IndicatorContainer>
-        No result
+        Something went wrong
       </IndicatorContainer>
     )
   }
+
   if (state.loading) {
     return (
       <IndicatorContainer>
@@ -39,10 +40,11 @@ const PhotoGallery = () => {
       </IndicatorContainer>
     )
   }
-  if (state.error) {
+
+  if (!state.loading && !state.photos.length) {
     return (
       <IndicatorContainer>
-        Something went wrong
+        No result
       </IndicatorContainer>
     )
   }
