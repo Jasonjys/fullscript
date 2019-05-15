@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 import { Input } from 'antd';
-import { AppContext } from '../contextProvider/AppContextProvider'
+import { AppContext } from '../contextProvider/AppContext'
 
 const Search = Input.Search;
 

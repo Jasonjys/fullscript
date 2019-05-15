@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Spin, Icon, Pagination } from 'antd';
 
-import { AppContext } from '../contextProvider/AppContextProvider'
+import { AppContext } from '../contextProvider/AppContext'
 import Card from './Card'
 
 const Gallery = styled.div`

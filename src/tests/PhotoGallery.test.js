@@ -1,37 +1,88 @@
-// import React from 'react'
-// import { expect } from 'chai'
-// import { shallow } from 'enzyme'
-// import PhotoGallery from '../components/Card'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { expect } from 'chai'
+import { act } from 'react-dom/test-utils';
 
-// const getAppWithContext = (context) => {
-  
-//   // Will then mock the LocalizeContext module being used in our LanguageSelector component
-//   jest.doMock('../contextProvider/AppContextProvider', () => {
-//     return {
-//       LocalizeContext: {
-//         Consumer: (props) => props.children(context)
-//       }
-//     }
-//   });
-  
-//   // you need to re-require after calling jest.doMock.
-//   // return the updated LanguageSelector module that now includes the mocked context
-//   return require('./LanguageSelector').LanguageSelector;
-// };
+import PhotoGallery from '../components/PhotoGallery'
+import { AppContext } from '../contextProvider/AppContext'
 
-// describe('Card component', () => {
-//   let wrapper;
+describe('Gallery component', () => {
+  let container;
+  beforeEach(() => {
+      container = document.createElement('div');
+      document.body.appendChild(container);
+  });
 
-//   beforeEach(() => {
-//     jest.resetModules();
-//     wrapper = shallow(<PhotoGallery />);
-//   })
+  afterEach(() => {
+      document.body.removeChild(container);
+      container = null;
+  });
 
-//   it('renders without exploding', () => {
-//     expect(wrapper).to.have.lengthOf(1)
-//   })
+  it("shows loader when loading", () => {
+    const mockContext = {
+      state: {
+        loading: true
+      }
+    }
 
-//   it('renders 1 image', () => {
-//     expect(wrapper.find(Img)).to.have.lengthOf(1)
-//   })
-// })
+    act(() => {
+        ReactDOM.render((
+            <AppContext.Provider value={mockContext}>
+              <PhotoGallery />
+            </AppContext.Provider>
+        ), container);
+    })
+
+    const loader = container.querySelector('i')
+    expect(loader).to.exist
+  });
+
+  it("shows 'No result' when photos array is empty", () => {
+    const mockContext = {
+      state: {
+        loading: false,
+        photos: []
+      }
+    }
+
+    act(() => {
+      ReactDOM.render((
+        <AppContext.Provider value={mockContext}>
+          <PhotoGallery />
+        </AppContext.Provider>
+      ), container);
+    })
+
+    const div = container.querySelector('div')
+    expect(div.textContent).to.equal('No result')
+  })
+
+  it("shows imgages when photos exists", () => {
+    const mockContext = {
+      state: {
+        currentPage: 1,
+        pageSize: 20,
+        orderedBy: "popular",
+        loading: false,
+        photos: [{
+          id: "fakeId",
+          urls: {
+            regular: "https://fakeurl/"
+          }
+        }],
+        total: 1
+      }
+    }
+
+    act(() => {
+      ReactDOM.render((
+        <AppContext.Provider value={mockContext}>
+          <PhotoGallery />
+        </AppContext.Provider>
+      ), container);
+    })
+
+    const image = container.querySelector('img')
+    expect(image.src).to.equal(mockContext.state.photos[0].urls.regular)
+  })
+})

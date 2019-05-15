@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Select } from 'antd';
 
-import { AppContext } from '../contextProvider/AppContextProvider'
+import { AppContext } from '../contextProvider/AppContext'
 const Option = Select.Option;
 
 const FilterDropdown = () => {

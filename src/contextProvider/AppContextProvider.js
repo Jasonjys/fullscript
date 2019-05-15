@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 
 import unsplash from '../config/unsplash'
 import { orderedByOptions } from '../utils/options'
-
-export const AppContext = React.createContext();
+import { AppContext } from './AppContext'
 
 class AppContextProvider extends Component {
   state = {

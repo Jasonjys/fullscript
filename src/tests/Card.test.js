@@ -1,7 +1,7 @@
 import React from 'react'
 import { expect } from 'chai'
 import { shallow } from 'enzyme'
-import Card, {Img} from '../components/Card'
+import Card, { Img } from '../components/Card'
 
 describe('Card component', () => {
   let wrapper, photo;
@@ -9,7 +9,7 @@ describe('Card component', () => {
   beforeEach(() => {
     photo = {
       urls: {
-        regular: "https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjcxNTg5fQ"
+        regular: "https://fakeurl"
       }
     }
 
