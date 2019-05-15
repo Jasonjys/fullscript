@@ -20,9 +20,7 @@ const Img = styled.img`
 
 const Card = ({photo}) => {
   return (
-    <CardContainer onClick={() => {
-      debugger
-    }}>
+    <CardContainer>
       <Img alt="photo" src={photo.urls.regular} />
     </CardContainer>
   );

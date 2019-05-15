@@ -25,7 +25,7 @@ const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 const PhotoGallery = () => {
   const { state, changePageSize, changePage } = useContext(AppContext)
-  console.log(state)
+  // console.log(state)
   if (state.loading) {
     return (
       <IndicatorContainer>
