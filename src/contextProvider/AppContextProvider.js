@@ -48,13 +48,13 @@ class AppContextProvider extends Component {
       this.setState({
         photos,
         loading: false,
-        currentPage
+        currentPage: page
       })
     } catch (err) {
       this.setState({
         loading: false,
         error: true,
-        currentPage
+        currentPage: page
       })
       console.log(err)
     }
