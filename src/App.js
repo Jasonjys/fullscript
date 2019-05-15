@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import AppContextProvider from './contextProvider/AppContextProvider'
 import PhotoGallery from './components/PhotoGallery'
-import FilterDropdown from './components/FilterDropdown'
+import SearchControll from './components/SearchControll'
 import './App.css'
 
 const Container = styled.div`
@@ -15,7 +15,7 @@ class App extends Component {
     return (
       <AppContextProvider>
         <Container>
-          <FilterDropdown />
+          <SearchControll />
           <PhotoGallery />
         </Container>
       </AppContextProvider>

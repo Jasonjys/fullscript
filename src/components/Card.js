@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const CardContainer = styled.div`
   display: inline-block;
   width: 100%;
-  margin: 0 0 0.5em;
+  margin: 0 0 2px;
   &:hover {
     box-shadow: 0 2px 8px rgba(0,0,0,0.30);
     border-color: rgba(0,0,0,0.09);
@@ -20,7 +20,9 @@ const Img = styled.img`
 
 const Card = ({photo}) => {
   return (
-    <CardContainer>
+    <CardContainer onClick={() => {
+      debugger
+    }}>
       <Img alt="photo" src={photo.urls.regular} />
     </CardContainer>
   );

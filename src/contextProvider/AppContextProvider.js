@@ -8,70 +8,104 @@ export const AppContext = React.createContext();
 class AppContextProvider extends Component {
   state = {
     currentPage: 1,
-    pageSize: 10,
+    pageSize: 20,
     orderedBy: orderedByOptions[0],
     photos: [],
     loading: true,
     error: false,
+    queryTerm: "",
+    userInput: "",
+    total: 0
   }
 
   componentDidMount() {
-    const { currentPage, pageSize, orderedBy } = this.state
-    this.getListPhotos(currentPage, pageSize, orderedBy)
+    this.getListPhotos()
   }
 
-  getListPhotos = async (currentPage, pageSize, orderedBy) => {
+  getListPhotos = async () => {
     this.setState({ loading: true })
+    const { currentPage, pageSize, orderedBy } = this.state
     try {
       const res = await unsplash.photos.listPhotos(currentPage, pageSize, orderedBy)
       const photos = await res.json()
+      console.log(photos)
       this.setState({
         photos,
         loading: false,
-        currentPage
+        total: 100
       })
     } catch (err) {
       this.setState({
         loading: false,
-        error: true,
-        currentPage
+        error: true
       })
       console.log(err)
     }
   }
 
-  searchPhotos = async (keyword, page, pageSize) => {
+  searchPhotosByTerm = async (keyword) => {
     this.setState({ loading: true })
+    const { currentPage, pageSize } = this.state
     try {
-      const res = await unsplash.search.photos(keyword, page, pageSize)
-      const photos = await res.json()
+      const res = await unsplash.search.photos(keyword, currentPage, pageSize)
+      const searchResult = await res.json()
+      console.log("searchResult: ", searchResult)
       this.setState({
-        photos,
+        total: searchResult.total,
+        photos: searchResult.results,
         loading: false,
-        currentPage: page
       })
     } catch (err) {
       this.setState({
         loading: false,
         error: true,
-        currentPage: page
       })
       console.log(err)
     }
+  }
+
+  handleTermSearch = (value) => {
+    this.setState({ queryTerm: value })
+    this.searchOrGet(value, true)
+  }
+
+  searchOrGet = (queryTerm, resetpage) => {
+    if (resetpage) {
+      this.setState({ currentPage: 1 }, () => {
+        queryTerm ? this.searchPhotosByTerm(queryTerm) : this.getListPhotos()
+      })
+      return
+    }
+    queryTerm ? this.searchPhotosByTerm(queryTerm) : this.getListPhotos()
+  }
+
+  updateUserInput = (value) => {
+    this.setState({ userInput: value })
   }
 
   changeOrderedBy = (option) => {
     this.setState({
       orderedBy: option,
-      loading: true
+      currentPage: 1,
+      userInput: "",
+      queryTerm: ""
     }, () => {
-      const { pageSize, orderedBy } = this.state
-      this.getListPhotos(1, pageSize, orderedBy)
+      this.getListPhotos()
     })
   }
 
   changePageSize = (pageSize) => {
-    this.setState({ pageSize })
+    this.setState({ pageSize }, () => {
+      const { queryTerm } = this.state
+      this.searchOrGet(queryTerm)
+    })
+  }
+
+  changePage = (page) => {
+    this.setState({ currentPage: page }, () => {
+      const { queryTerm } = this.state
+      this.searchOrGet(queryTerm)
+    })
   }
 
   render() {
@@ -81,7 +115,10 @@ class AppContextProvider extends Component {
         orderedByOptions,
         getListPhotos: this.getListPhotos,
         changeOrderedBy: this.changeOrderedBy,
-        changePageSize: this.changePageSize
+        changePage: this.changePage,
+        changePageSize: this.changePageSize,
+        handleTermSearch: this.handleTermSearch,
+        updateUserInput: this.updateUserInput
       }}>
         {this.props.children}
       </AppContext.Provider>

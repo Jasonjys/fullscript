@@ -24,7 +24,7 @@ const PageContainer = styled.div`
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 const PhotoGallery = () => {
-  const { state, getListPhotos, changePageSize } = useContext(AppContext)
+  const { state, changePageSize, changePage } = useContext(AppContext)
   console.log(state)
   if (state.loading) {
     return (
@@ -48,16 +48,13 @@ const PhotoGallery = () => {
       <PageContainer>
         <Pagination
           showSizeChanger
-          total={500}
+          total={state.total}
           defaultCurrent={1}
           pageSize={state.pageSize}
           pageSizeOptions={['10', '20', '30']}
           current={state.currentPage}
-          onChange={(page, pageSize) => getListPhotos(page, pageSize, state.orderedBy)}
-          onShowSizeChange={(current, pageSize) => {
-            changePageSize(pageSize)
-            getListPhotos(current, pageSize, state.orderedBy)
-          }}
+          onChange={(page) => {changePage(page)}}
+          onShowSizeChange={(_, pageSize) => {changePageSize(pageSize)}}
         />
       </PageContainer>
     </React.Fragment>
