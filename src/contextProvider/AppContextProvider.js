@@ -11,7 +11,7 @@ class AppContextProvider extends Component {
     orderedBy: orderedByOptions[0],
     photos: [],
     loading: true,
-    error: true,
+    error: false,
     queryTerm: "",
     userInput: "",
     total: 0
