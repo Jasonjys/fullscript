@@ -14,7 +14,9 @@ class AppContextProvider extends Component {
     error: false,
     queryTerm: "",
     userInput: "",
-    total: 0
+    isPhotoOpened: false,
+    total: 0,
+    photo: null
   }
 
   componentDidMount() {
@@ -107,6 +109,17 @@ class AppContextProvider extends Component {
     })
   }
 
+  openPhoto = (photo) => {
+    this.setState({
+      photo,
+      isPhotoOpened: true
+    })
+  }
+
+  closePhoto = () => {
+    this.setState({ isPhotoOpened: false })
+  }
+
   render() {
     return (
       <AppContext.Provider value={{
@@ -117,7 +130,9 @@ class AppContextProvider extends Component {
         changePage: this.changePage,
         changePageSize: this.changePageSize,
         handleTermSearch: this.handleTermSearch,
-        updateUserInput: this.updateUserInput
+        updateUserInput: this.updateUserInput,
+        openPhoto: this.openPhoto,
+        closePhoto: this.closePhoto
       }}>
         {this.props.children}
       </AppContext.Provider>

@@ -1,26 +1,13 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
+import React from 'react'
 
 import AppContextProvider from './contextProvider/AppContextProvider'
-import PhotoGallery from './components/PhotoGallery'
-import SearchControll from './components/SearchControll'
+import MainView from './components/MainView'
 import './App.css'
 
-const Container = styled.div`
-  padding: 15px;
-`
-
-class App extends Component {
-  render() {
-    return (
-      <AppContextProvider>
-        <Container>
-          <SearchControll />
-          <PhotoGallery />
-        </Container>
-      </AppContextProvider>
-    );
-  }
-}
+const App = () => (
+  <AppContextProvider>
+    <MainView />
+  </AppContextProvider>
+)
 
 export default App;

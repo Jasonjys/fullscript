@@ -1,57 +1,70 @@
-import React, { useContext } from 'react'
+import React, { useContext, Suspense, lazy } from 'react'
 import styled from 'styled-components'
-import { Spin, Icon, Pagination } from 'antd';
+import { Pagination, Modal } from 'antd';
 
 import { AppContext } from '../contextProvider/AppContext'
 import Card from './Card'
+import Spinner from './Spinner'
+import Error from './Error'
+import EmptyResult from './EmtyResult'
+
+const Photo = lazy(() => import('./Photo'))
 
 const Gallery = styled.div`
   column-count: 3;
 `
-const IndicatorContainer = styled.div`
-  display: flex;
-  height: 100vh;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-`
+
 const PageContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
 `
 
-const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+const PhotoModal = styled(Modal)`
+  max-height: 80%;
+  width: 60%
+  .ant-modal-body {
+    padding: 0px;
+  }
+`
 
 const PhotoGallery = () => {
-  const { state, changePageSize, changePage } = useContext(AppContext)
-  if (state.error) {
-    return (
-      <IndicatorContainer>
-        Something went wrong
-      </IndicatorContainer>
-    )
-  }
+  const {
+    state,
+    changePageSize,
+    changePage,
+    openPhoto,
+    closePhoto
+  } = useContext(AppContext)
+  if (state.error) return <Error />
+  if (state.loading) return <Spinner />
+  if (!state.loading && !state.photos.length) return <EmptyResult />
 
-  if (state.loading) {
-    return (
-      <IndicatorContainer>
-        <Spin indicator={antIcon} />
-      </IndicatorContainer>
-    )
-  }
-
-  if (!state.loading && !state.photos.length) {
-    return (
-      <IndicatorContainer>
-        No result
-      </IndicatorContainer>
-    )
-  }
+  console.log(state)
   return (
     <React.Fragment>
       <Gallery>
-        {state.photos.map(photo => <Card photo={photo} key={photo.id} />)}
+        <PhotoModal
+          centered
+          footer={null}
+          closable={false}
+          style={{padding: 0}}
+          onCancel={e => closePhoto()}
+          visible={state.isPhotoOpened}
+        >
+          {state.isPhotoOpened &&
+            <Suspense fallback={<Spinner />}>
+              <Photo url={state.photo.urls.full} />
+            </Suspense> 
+          }
+        </PhotoModal>
+        {state.photos.map(photo => 
+          <Card
+            photo={photo}
+            key={photo.id}
+            openPhoto={openPhoto}
+          />
+        )}
       </Gallery>
       <PageContainer>
         <Pagination

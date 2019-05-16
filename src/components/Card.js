@@ -18,9 +18,9 @@ export const Img = styled.img`
   display: block
 `
 
-const Card = ({photo}) => {
+const Card = ({ photo, openPhoto }) => {
   return (
-    <CardContainer>
+    <CardContainer onClick={() => openPhoto(photo)}>
       <Img alt="photo" src={photo.urls.regular} />
     </CardContainer>
   );
