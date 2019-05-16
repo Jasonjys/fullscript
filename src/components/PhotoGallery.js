@@ -21,8 +21,6 @@ const PageContainer = styled.div`
 `
 
 const PhotoModal = styled(Modal)`
-  max-height: 80%;
-  width: 60%
   .ant-modal-body {
     padding: 0px;
   }
@@ -46,9 +44,9 @@ const PhotoGallery = () => {
       <Gallery>
         <PhotoModal
           centered
+          width="32%"
           footer={null}
           closable={false}
-          style={{padding: 0}}
           onCancel={e => closePhoto()}
           visible={state.isPhotoOpened}
         >
