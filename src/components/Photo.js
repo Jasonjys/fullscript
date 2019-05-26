@@ -7,8 +7,8 @@ const Photo = styled.img`
   width: 100%;
 `
 
-const PhotoImage = ({ url }) => (
-  <Photo src={url} />
+const PhotoImage = ({ url, handleOnLoad }) => (
+  <Photo src={url} onLoad={() => {handleOnLoad(false)}} />
 )
 
 export default PhotoImage;

@@ -16,7 +16,8 @@ class AppContextProvider extends Component {
     userInput: "",
     isPhotoOpened: false,
     total: 0,
-    photo: null
+    photo: null,
+    isImgLoading: true
   }
 
   componentDidMount() {
@@ -117,7 +118,14 @@ class AppContextProvider extends Component {
   }
 
   closePhoto = () => {
-    this.setState({ isPhotoOpened: false })
+    this.setState({
+      isPhotoOpened: false,
+      isImgLoading: true
+    })
+  }
+
+  setImgLoading = (isImgLoading) => {
+    this.setState({ isImgLoading })
   }
 
   render() {
@@ -132,7 +140,8 @@ class AppContextProvider extends Component {
         handleTermSearch: this.handleTermSearch,
         updateUserInput: this.updateUserInput,
         openPhoto: this.openPhoto,
-        closePhoto: this.closePhoto
+        closePhoto: this.closePhoto,
+        setImgLoading: this.setImgLoading
       }}>
         {this.props.children}
       </AppContext.Provider>

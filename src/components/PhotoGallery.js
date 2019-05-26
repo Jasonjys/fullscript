@@ -1,4 +1,4 @@
-import React, { useContext, Suspense, lazy } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Pagination, Modal } from 'antd';
 
@@ -7,8 +7,7 @@ import Card from './Card'
 import Spinner from './Spinner'
 import Error from './Error'
 import EmptyResult from './EmtyResult'
-
-const Photo = lazy(() => import('./Photo'))
+import Photo from './Photo'
 
 const Gallery = styled.div`
   column-count: 3;
@@ -24,6 +23,10 @@ const PhotoModal = styled(Modal)`
   .ant-modal-body {
     padding: 0px;
   }
+  .ant-modal-content {
+    background-color: transparent;
+    box-shadow: none;
+  }
 `
 
 const PhotoGallery = () => {
@@ -32,7 +35,8 @@ const PhotoGallery = () => {
     changePageSize,
     changePage,
     openPhoto,
-    closePhoto
+    closePhoto,
+    setImgLoading
   } = useContext(AppContext)
   if (state.error) return <Error />
   if (state.loading) return <Spinner />
@@ -50,10 +54,12 @@ const PhotoGallery = () => {
           onCancel={e => closePhoto()}
           visible={state.isPhotoOpened}
         >
+          {state.isPhotoOpened && state.isImgLoading && <Spinner />}
           {state.isPhotoOpened &&
-            <Suspense fallback={<Spinner />}>
-              <Photo url={state.photo.urls.full} />
-            </Suspense> 
+            <Photo
+              url={state.photo.urls.full}
+              handleOnLoad={setImgLoading}
+            />
           }
         </PhotoModal>
         {state.photos.map(photo => 
