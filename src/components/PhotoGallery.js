@@ -42,7 +42,6 @@ const PhotoGallery = () => {
   if (state.loading) return <Spinner />
   if (!state.loading && !state.photos.length) return <EmptyResult />
 
-  console.log(state)
   return (
     <React.Fragment>
       <Gallery>

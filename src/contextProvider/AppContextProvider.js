@@ -24,6 +24,21 @@ class AppContextProvider extends Component {
     this.getListPhotos()
   }
 
+  componentDidUpdate(_, prevState) {
+    const {currentPage, pageSize, orderedBy, queryTerm} = this.state
+    if (currentPage !== prevState.currentPage
+      || pageSize !== prevState.pageSize
+      || orderedBy !== prevState.orderedBy
+      || queryTerm !== prevState.queryTerm
+    ) {
+      if (queryTerm) {
+        this.searchPhotosByTerm(queryTerm)
+      } else {
+        this.getListPhotos()
+      }
+    }
+  }
+
   getListPhotos = async () => {
     this.setState({ loading: true })
     const { currentPage, pageSize, orderedBy } = this.state
@@ -51,7 +66,6 @@ class AppContextProvider extends Component {
     try {
       const res = await unsplash.search.photos(keyword, currentPage, pageSize)
       const searchResult = await res.json()
-      console.log("searchResult: ", searchResult)
       this.setState({
         total: searchResult.total,
         photos: searchResult.results,
@@ -67,18 +81,10 @@ class AppContextProvider extends Component {
   }
 
   handleTermSearch = (value) => {
-    this.setState({ queryTerm: value })
-    this.searchOrGet(value, true)
-  }
-
-  searchOrGet = (queryTerm, resetpage) => {
-    if (resetpage) {
-      this.setState({ currentPage: 1 }, () => {
-        queryTerm ? this.searchPhotosByTerm(queryTerm) : this.getListPhotos()
-      })
-      return
-    }
-    queryTerm ? this.searchPhotosByTerm(queryTerm) : this.getListPhotos()
+    this.setState({
+      queryTerm: value,
+      currentPage: 1
+    })
   }
 
   updateUserInput = (value) => {
@@ -91,23 +97,15 @@ class AppContextProvider extends Component {
       currentPage: 1,
       userInput: "",
       queryTerm: ""
-    }, () => {
-      this.getListPhotos()
     })
   }
 
   changePageSize = (pageSize) => {
-    this.setState({ pageSize }, () => {
-      const { queryTerm } = this.state
-      this.searchOrGet(queryTerm)
-    })
+    this.setState({ pageSize })
   }
 
   changePage = (page) => {
-    this.setState({ currentPage: page }, () => {
-      const { queryTerm } = this.state
-      this.searchOrGet(queryTerm)
-    })
+    this.setState({ currentPage: page })
   }
 
   openPhoto = (photo) => {
